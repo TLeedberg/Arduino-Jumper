@@ -45,7 +45,7 @@ void loop() {
       height = height-5;
     }
   }
-  if(height<=0) {
+  if(height<=1) {
       jumping = false;
       height=0;
   }
