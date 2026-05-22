@@ -53,7 +53,7 @@ void loop() {
   display.clearDisplay();
   display.drawFastHLine(0,60,128,WHITE);
 
-  display.drawRotatedRect(24,52-height,16,16,rot,WHITE);
+  display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
   for(int i=0; i<8; i++) {
     if(level[i] == 1){
       display.drawTriangle(i*16,60,i*16+8,44,i*16+16,60,WHITE);
