@@ -45,12 +45,13 @@ void loop() {
   }
 
   if (jumping){
-    if(height>=20 && directionUp){
+    rot = rot+22;
+    if(height>=22 && directionUp){
       directionUp = false;
     }
 
     if (directionUp){
-      height = height+5;
+      height = height+4;
     } else{
       height = height-5;
     }
@@ -58,16 +59,17 @@ void loop() {
   if(height<=1) {
       jumping = false;
       height=0;
+      rot = 0;
   }
 
   display.clearDisplay();
-  display.drawFastHLine(0,56,128,WHITE);
+  display.drawFastHLine(0,60,128,WHITE);
 
-  display.drawRotatedRect(24,47-height,16,16,rot,WHITE);
+  display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
 
   for(int i=0; i<8; i++) {
     if(level[i+bigOffset] == 1){
-      display.drawTriangle(i*16-littleOffset,56,i*16+8-littleOffset,40,i*16+16-littleOffset,56,WHITE);
+      display.drawTriangle(i*16-littleOffset,60,i*16+8-littleOffset,44,i*16+16-littleOffset,60,WHITE);
     }
   }
   display.display();
