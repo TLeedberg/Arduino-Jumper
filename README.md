@@ -1,4 +1,4 @@
-This is a fun game inspired by others such as Geometry Dash, made with an Arduino, about jumping over spikes.
+This is a fun game inspired by others such as Geometry Dash, made with an Arduino and an I2C 128x64 OLED display, about jumping over spikes.
 Project uses PlatformIO.
 
 Wiring:
