@@ -11,7 +11,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,1,0,0,1,0,0,1,0,0};
+int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,1}; //1=spike 2=pad
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
@@ -31,7 +31,7 @@ void loop() {
   if (playing){
   delay(100);
 
-  littleOffset=littleOffset+4;
+  littleOffset=littleOffset+8; //4
   if(littleOffset==16){
     littleOffset=0;
     bigOffset++;
@@ -51,12 +51,12 @@ void loop() {
     }
 
     if (directionUp){
-      height = height+4;
+      height = height+5;
     } else{
-      height = height-5;
+      height = height-4;
     }
   }
-  if(height<=1) {
+  if(height<=1 && !directionUp) {
       jumping = false;
       height=0;
       rot = 0;
@@ -67,10 +67,9 @@ void loop() {
 
   for(int i=0; i<8; i++) {
     if(level[i+bigOffset] == 1){
-      display.drawTriangle(i*16-littleOffset+3,60,i*16+8-littleOffset,44+4,i*16+16-littleOffset-3,60,WHITE);
+      display.drawTriangle(i*16-littleOffset+3,60,i*16+8-littleOffset,48,i*16+13-littleOffset,60,WHITE);
     }
   }
-
   for(int x=16;x<32;x++){
     for(int y=44-height;y<60-height;y++){
       if(display.getPixel(x,y)==true){
@@ -78,6 +77,22 @@ void loop() {
       }
     }
   }
+
+  for(int i=0; i<8; i++) {
+    if(level[i+bigOffset] == 2){
+      display.drawRect(i*16-littleOffset,54,16,6,WHITE);
+    }
+  }
+  for(int x=16;x<32;x++){
+    for(int y=44-height;y<60-height;y++){
+      if(display.getPixel(x,y)==true){
+        jumping = true;
+        directionUp = true;
+        height+=height+4;
+      }
+    }
+  }
+
   display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
 
   display.display();
