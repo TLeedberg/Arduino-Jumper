@@ -11,7 +11,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,1,0,0};
+int level[] = {0,0,0,0,0,1,0,0,1,0,0,1,0,0};
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
@@ -28,6 +28,7 @@ void setup() {
 }
 
 void loop() {
+  if (playing){
   delay(100);
 
   littleOffset=littleOffset+4;
@@ -66,11 +67,12 @@ void loop() {
 
   for(int i=0; i<8; i++) {
     if(level[i+bigOffset] == 1){
-      display.drawTriangle(i*16-littleOffset,60,i*16+8-littleOffset,44,i*16+16-littleOffset,60,WHITE);
+      display.drawTriangle(i*16-littleOffset+3,60,i*16+8-littleOffset,44+4,i*16+16-littleOffset-3,60,WHITE);
     }
   }
-  for(int x=0;x<16;x++){
-    for(int y=0;y<16;y++){
+
+  for(int x=16;x<32;x++){
+    for(int y=44-height;y<60-height;y++){
       if(display.getPixel(x,y)==true){
         playing=false;
       }
@@ -79,4 +81,17 @@ void loop() {
   display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
 
   display.display();
+  }
+  else{
+    delay(1000);
+    display.clearDisplay();
+    display.setCursor(0,17);
+    display.setTextSize(3);
+    display.setTextColor(WHITE);
+    display.setTextWrap(false);
+    display.println("Game\nOver");
+    display.display();
+    display.startscrollleft(0x00,0x0F);
+    for(;;);
+  }
 }
