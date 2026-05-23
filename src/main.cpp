@@ -17,10 +17,9 @@ bool directionUp = false;
 int height = 0;
 int bigOffset = 0;
 int littleOffset = 0;
+bool playing = true;
 
 void setup() {
-  // put your setup code here, to run once:
-  Serial.begin(9600);
   pinMode(buttonPin,INPUT);
 
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
@@ -65,13 +64,19 @@ void loop() {
   display.clearDisplay();
   display.drawFastHLine(0,60,128,WHITE);
 
-  display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
-
   for(int i=0; i<8; i++) {
     if(level[i+bigOffset] == 1){
       display.drawTriangle(i*16-littleOffset,60,i*16+8-littleOffset,44,i*16+16-littleOffset,60,WHITE);
     }
   }
+  for(int x=0;x<16;x++){
+    for(int y=0;y<16;y++){
+      if(display.getPixel(x,y)==true){
+        playing=false;
+      }
+    }
+  }
+  display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
+
   display.display();
-  Serial.println(height);
 }
