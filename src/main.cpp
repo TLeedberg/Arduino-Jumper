@@ -11,7 +11,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,1}; //1=spike 2=pad
+int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,1,0}; //1=spike 2=pad
+int levelLength = 20;
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
@@ -94,6 +95,9 @@ void loop() {
   }
 
   display.drawRotatedRect(24,51-height,16,16,rot,WHITE);
+
+  display.drawRect(16, 0, 96, 8, WHITE);
+  display.fillRect(18,2,constrain(float(bigOffset)/float(levelLength)*92,0,92),4,WHITE);
 
   display.display();
   }
