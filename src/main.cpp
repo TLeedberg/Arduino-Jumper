@@ -2,6 +2,7 @@
 #include <Wire.h>
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
+#include <SoftwareReset.hpp>
 
 
 #define SCREEN_WIDTH 128
@@ -11,14 +12,15 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,1,0}; //1=spike 2=pad
-int levelLength = 20;
+int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,1,0,0,0,0,0,1,1,0}; //1=spike 2=pad
+int levelLength = 26;
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
 int bigOffset = 0;
 int littleOffset = 0;
 bool playing = true;
+bool win = false;
 
 void setup() {
   pinMode(buttonPin,INPUT);
@@ -99,9 +101,26 @@ void loop() {
   display.drawRect(16, 0, 96, 8, WHITE);
   display.fillRect(18,2,constrain(float(bigOffset)/float(levelLength)*92,0,92),4,WHITE);
 
+  if (bigOffset>=levelLength){
+    win=true;
+    playing=false;
+  }
+
   display.display();
   }
-  else{
+  else if(win){
+    delay(1000);
+    display.clearDisplay();
+    display.setCursor(0,17);
+    display.setTextSize(3);
+    display.setTextColor(WHITE);
+    display.setTextWrap(false);
+    display.println("You\nWin");
+    display.display();
+    display.startscrollleft(0x00,0x0F);
+    while(digitalRead(buttonPin) != HIGH){;}
+    softwareReset::standard();
+  }else{
     delay(1000);
     display.clearDisplay();
     display.setCursor(0,17);
@@ -111,6 +130,7 @@ void loop() {
     display.println("Game\nOver");
     display.display();
     display.startscrollleft(0x00,0x0F);
-    for(;;);
+    while(digitalRead(buttonPin) != HIGH){;}
+    softwareReset::standard();
   }
 }
