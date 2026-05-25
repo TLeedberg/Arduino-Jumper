@@ -12,8 +12,11 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,2,1,1,0,0,0}; //1=spike 2=pad 3=orb
+
+//1=spike 2=pad 3=orb
+int level[] = {0,0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,2,1,1,0,0,0};
 int levelLength = 56;
+
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
@@ -30,6 +33,16 @@ void setup() {
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   delay(1000);
   display.clearDisplay();
+
+  display.setCursor(0,17);
+  display.setTextSize(2);
+  display.setTextColor(WHITE);
+  display.println("PRESS\nBUTTON\nTO PLAY");
+  display.display();
+  while(digitalRead(buttonPin) == LOW){;}
+  display.clearDisplay();
+  display.display();
+  delay(500);
 }
 
 void loop() {
@@ -143,7 +156,7 @@ void loop() {
     display.println("You\nWin");
     display.display();
     display.startscrollleft(0x00,0x0F);
-    while(digitalRead(buttonPin) != HIGH){;}
+    while(digitalRead(buttonPin) == LOW){;}
     softwareReset::standard();
   }else{
     //lose
@@ -156,7 +169,7 @@ void loop() {
     display.println("Game\nOver");
     display.display();
     display.startscrollleft(0x00,0x0F);
-    while(digitalRead(buttonPin) != HIGH){;}
+    while(digitalRead(buttonPin) == LOW){;}
     softwareReset::standard();
   }
 }
