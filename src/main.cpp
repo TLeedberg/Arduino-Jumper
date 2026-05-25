@@ -12,8 +12,8 @@ Adafruit_SSD1306 display(SCREEN_WIDTH,SCREEN_HEIGHT, &Wire, -1);
 
 int buttonPin = 8;
 int rot = 0;
-int level[] = {0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,3,1,1,1,0,0}; //1=spike 2=pad 3=orb
-int levelLength = 37;
+int level[] = {0,0,0,0,0,0,0,0,0,1,0,0,0,2,1,0,0,0,0,0,1,0,0,0,0,0,0,1,1,0,0,0,3,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,2,1,1,0,0,0}; //1=spike 2=pad 3=orb
+int levelLength = 56;
 bool jumping = false;
 bool directionUp = false;
 int height = 0;
